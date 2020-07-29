@@ -1,0 +1,2 @@
+SELECT ename || ' 의 직업은 ' ||  job ||  ' 입니다 '  as  직업정보
+  FROM emp;

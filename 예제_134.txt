@@ -1,0 +1,7 @@
+SELECT TERM AS 원인
+  FROM CRIME_CAUSE2
+  WHERE CNT = ( SELECT MAX(CNT)
+                          FROM CRIME_CAUSE2
+                          WHERE 범죄유형='방화')
+   AND 범죄유형='방화';
+   

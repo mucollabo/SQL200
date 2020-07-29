@@ -1,0 +1,2 @@
+SELECT UPPER(ename), LOWER(ename), INITCAP(ename)
+  FROM emp; 

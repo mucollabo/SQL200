@@ -1,0 +1,6 @@
+undefine p_n 
+ACCEPT p_n prompt '숫자를 입력하세요~'
+
+SELECT ROUND(EXP(SUM(LN(LEVEL)))) 곱
+  FROM DUAL
+  CONNECT BY LEVEL<=&p_n;

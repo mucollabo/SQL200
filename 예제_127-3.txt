@@ -1,0 +1,2 @@
+SELECT REGEXP_SUBSTR('I never graduated from college', '[^ ]+', 1, 2) word
+  FROM dual;

@@ -1,0 +1,3 @@
+SELECT ename, sal
+  FROM emp
+  WHERE sal NOT BETWEEN 1000 AND 3000; 

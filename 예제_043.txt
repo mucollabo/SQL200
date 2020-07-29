@@ -1,0 +1,4 @@
+SELECT ename, job, sal, 
+        NTILE(4) over (order by sal desc nulls last) µî±Þ 
+  FROM emp
+  WHERE job in ('ANALYST','MANAGER','CLERK');

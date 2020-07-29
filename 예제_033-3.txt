@@ -1,0 +1,3 @@
+SELECT ename, sal, comm, NVL(comm,0), sal+NVL(comm,0) 
+  FROM emp
+  WHERE job IN ('SALESMAN','ANALYST');

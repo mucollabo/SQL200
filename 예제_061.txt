@@ -1,0 +1,3 @@
+SELECT e.ename as 사원, e.job as 직업, m.ename as 관리자, m.job as 직업
+  FROM emp e, emp m
+  WHERE e.mgr = m.empno and e.job='SALESMAN';

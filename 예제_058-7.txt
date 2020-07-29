@@ -1,0 +1,3 @@
+SELECT emp.ename, dept.loc, emp.job
+  FROM emp , dept
+  WHERE emp.deptno = dept.deptno  and emp.job='ANALYST';

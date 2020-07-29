@@ -1,0 +1,5 @@
+SELECT ename, sal
+  FROM emp
+  WHERE sal > (SELECT sal
+                        FROM EMP
+                        WHERE ename='JONES');

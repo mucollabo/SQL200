@@ -1,0 +1,9 @@
+WITH  LOOP_TABLE  AS  ( SELECT LEVEL   AS NUM
+                                     FROM DUAL
+                                     CONNECT BY LEVEL <= 9 ),
+         GUGU_TABLE  AS ( SELECT LEVEL + 1 AS GUGU
+                                    FROM DUAL 
+                                    CONNECT BY LEVEL <= 8 )
+SELECT TO_CHAR( A.NUM ) || ' X ' ||  TO_CHAR( B.GUGU) || ' = ' || 
+          TO_CHAR( B.GUGU * A.NUM ) as 구구단
+  FROM  LOOP_TABLE A, GUGU_TABLE B;

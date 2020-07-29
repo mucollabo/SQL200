@@ -1,0 +1,4 @@
+SELECT job, MIN(sal) 최소값
+  FROM emp
+  GROUP BY job
+  ORDER BY 최소값 DESC;

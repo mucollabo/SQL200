@@ -1,0 +1,4 @@
+SELECT job, SUM(sal)
+  FROM emp
+  GROUP BY job
+  HAVING sum(sal) >= 4000;  

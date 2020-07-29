@@ -1,0 +1,6 @@
+SELECT deptno, empno, ename, hiredate,
+          LAG(hiredate,1) over ( partition by deptno
+                                       order by hiredate asc) "전 행",
+          LEAD(hiredate,1) over ( partition by deptno
+                                        order by hiredate asc) "다음 행"
+  FROM emp;

@@ -1,0 +1,4 @@
+SELECT empno, ename, job, sal
+  FROM emp
+  ORDER BY sal desc
+  FETCH FIRST 20 PERCENT ROWS ONLY;

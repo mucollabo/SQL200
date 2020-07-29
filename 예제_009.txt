@@ -1,0 +1,3 @@
+SELECT ename, sal*12 as ¿¬ºÀ
+  FROM emp
+  WHERE sal*12 >= 36000;

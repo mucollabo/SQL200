@@ -1,0 +1,2 @@
+SELECT ename, comm, NVL(comm,0)
+  FROM emp; 

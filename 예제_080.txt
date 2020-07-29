@@ -1,0 +1,10 @@
+DELETE FROM emp
+WHERE ename='SCOTT';
+
+SELECT  *
+  FROM emp;
+ 
+ROLLBACK;
+ 
+SELECT *
+  FROM emp;

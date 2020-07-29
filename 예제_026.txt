@@ -1,0 +1,2 @@
+SELECT ename, MONTHS_BETWEEN(sysdate,hiredate)
+  FROM emp; 

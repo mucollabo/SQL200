@@ -1,0 +1,4 @@
+SELECT job, SUM(sal)
+  FROM emp
+  GROUP BY job
+  ORDER BY sum(sal) DESC;

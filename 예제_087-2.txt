@@ -1,0 +1,12 @@
+DELETE FROM emp m
+  WHERE sal > ( SELECT avg(sal)
+                  FROM emp s
+                  WHERE s.deptno = m.deptno);
+
+SELECT *
+  FROM emp;
+
+ROLLBACK;
+
+SELECT *
+  FROM emp;

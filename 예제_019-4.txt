@@ -1,0 +1,2 @@
+SELECT RTRIM( SUBSTR('abcdefgh@naver.com' ,INSTR('abcdefgh@naver.com','@')+1 ) ,'.com')
+  FROM DUAL; 

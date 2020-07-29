@@ -1,0 +1,2 @@
+SELECT ename || ' 의 월급은 ' ||  sal ||  ' 입니다 '  as  월급정보
+  FROM emp;

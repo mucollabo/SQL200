@@ -1,0 +1,10 @@
+SELECT DEPTNO, SUM(SAL) 
+  FROM ( SELECT JOB, SUM(SAL)  토탈
+           FROM   EMP
+           GROUP BY JOB )  as JOB_SUMSAL ,
+         ( SELECT DEPTNO, SUM(SAL) 토탈
+             FROM EMP 
+             GROUP BY DEPTNO
+             HAVING SUM(SAL) > ( SELECT AVG(토탈) + 3000
+                                   FROM JOB_SUMSAL )
+            ) as DEPTNO_SUMSAL ;

@@ -1,0 +1,3 @@
+SELECT ename, sal 
+  FROM emp
+  WHERE hiredate='81/11/17'; 

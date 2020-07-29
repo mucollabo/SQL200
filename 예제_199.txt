@@ -1,0 +1,103 @@
+-- ■ 예제_199. SQL로 머신러닝 구현하기21(K-MEANS)
+
+-- 1. 머신러닝 모델이 학습할 테이블을 생성합니다.
+
+DROP TABLE FRUIT;
+
+CREATE TABLE FRUIT
+( F_ID    NUMBER(10),
+ F_NAME  VARCHAR2(10),
+ SWEET   NUMBER(10),
+ CRISPY  NUMBER(10),
+ F_CLASS  VARCHAR2(10) );
+
+INSERT INTO FRUIT VALUES( 1, '사과', 10, 9, '과일');
+INSERT INTO FRUIT VALUES( 2, '베이컨', 1, 4, '단백질');
+INSERT INTO FRUIT VALUES( 3, '바나나', 10, 1, '과일');
+INSERT INTO FRUIT VALUES( 4, '당근', 7, 10, '채소');
+INSERT INTO FRUIT VALUES( 5, '셀러리', 3, 10, '채소');
+INSERT INTO FRUIT VALUES( 6, '치즈', 1, 1, '단백질');
+INSERT INTO FRUIT VALUES( 7, '토마토', 6, 7, NULL);
+COMMIT;
+
+
+-- 2. 머신러닝 환경구성 테이블을 생성합니다.
+
+DROP TABLE SETTINGS_KM1;
+
+CREATE TABLE SETTINGS_KM1
+AS
+SELECT *
+   FROM TABLE (DBMS_DATA_MINING.GET_DEFAULT_SETTINGS)
+   WHERE SETTING_NAME LIKE '%GLM%';
+
+BEGIN
+
+   INSERT INTO SETTINGS_KM1
+      VALUES (DBMS_DATA_MINING.ALGO_NAME, 'ALGO_KMEANS');
+
+   INSERT INTO SETTINGS_KM1
+      VALUES (DBMS_DATA_MINING.PREP_AUTO, 'ON');
+
+    INSERT INTO SETTINGS_KM1
+      VALUES (DBMS_DATA_MINING.CLUS_NUM_CLUSTERS, 3);
+
+   COMMIT;
+
+END;
+/
+
+-- 3. 머신러닝 모델을 생성합니다.
+
+BEGIN
+ DBMS_DATA_MINING.DROP_MODEL('MD_KM_MODEL1');
+END;
+/
+
+BEGIN 
+
+   DBMS_DATA_MINING.CREATE_MODEL(
+      MODEL_NAME            => 'MD_KM_MODEL1',
+      MINING_FUNCTION       => DBMS_DATA_MINING.CLUSTERING,
+      DATA_TABLE_NAME       => 'FRUIT',
+      CASE_ID_COLUMN_NAME   => 'F_ID',
+      TARGET_COLUMN_NAME    => NULL,
+      SETTINGS_TABLE_NAME   => 'SETTINGS_KM1');
+END;
+/
+
+DROP TABLE KMEANS_RESULT1;
+
+BEGIN
+   DBMS_DATA_MINING.APPLY (MODEL_NAME => 'MD_KM_MODEL1',
+                                          DATA_TABLE_NAME => 'FRUIT',
+                                          CASE_ID_COLUMN_NAME => 'F_ID',
+                                          RESULT_TABLE_NAME => 'KMEANS_RESULT1');
+END;
+/
+
+
+-- 4. 머신러닝 모델이 분류한 결과를 확인합니다.
+
+SELECT T2.F_NAME,
+          T2.F_CLASS,
+          T1.CLUSTER_ID,
+          T1.PROBABILITY,
+          T2.SWEET,
+          T2.CRISPY
+  FROM (SELECT F_ID, CLUSTER_ID, PROBABILITY
+              FROM (SELECT T.*,
+                                  MAX (PROBABILITY)  OVER (PARTITION BY F_ID 
+                                                                       ORDER BY PROBABILITY DESC) MAXP
+                          FROM KMEANS_RESULT1 T)
+                          WHERE MAXP = PROBABILITY) T1, FRUIT T2
+  WHERE T1.F_ID = T2.F_ID 
+  ORDER BY CLUSTER_ID;
+
+
+
+
+ 
+
+
+

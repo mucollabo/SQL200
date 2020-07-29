@@ -1,0 +1,3 @@
+SELECT ename, hiredate
+  FROM emp
+  WHERE TO_CHAR(hiredate,'RRRR') = '1981';

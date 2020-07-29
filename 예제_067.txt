@@ -1,0 +1,13 @@
+-- 이번 실습을 위하여 예제65번에서 입력한 JACK 데이터를 삭제합니다.
+
+delete  from  emp
+ where ename='JACK';
+
+commit;
+
+SELECT deptno, sum(sal)
+  FROM emp
+  GROUP BY deptno
+UNION ALL
+SELECT TO_NUMBER(null) as deptno, sum(sal)
+  FROM emp;

@@ -1,0 +1,2 @@
+SELECT DENSE_RANK(2975) within group (ORDER BY sal DESC) ¼øÀ§
+  FROM emp;

@@ -1,0 +1,3 @@
+SELECT ename, sal, job
+  FROM emp
+  WHERE (job ='SALESMAN' or job='ANALYST' or job='MANAGER'); 

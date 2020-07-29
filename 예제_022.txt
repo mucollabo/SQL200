@@ -1,0 +1,2 @@
+SELECT 'smith', LTRIM('smith','s'), RTRIM('smith','h'), TRIM('s' from 'smith')
+  FROM dual;

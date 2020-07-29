@@ -1,0 +1,6 @@
+SELECT job, sum(sal)
+  FROM emp
+  GROUP BY job
+  HAVING sum(sal) > (SELECT sum(sal)
+                       FROM emp
+                       WHERE job='SALESMAN');

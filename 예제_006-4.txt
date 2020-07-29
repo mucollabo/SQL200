@@ -1,0 +1,3 @@
+SELECT ename, deptno, sal
+  FROM emp
+  ORDER BY deptno asc, sal desc;

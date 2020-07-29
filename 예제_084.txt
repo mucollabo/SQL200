@@ -1,0 +1,19 @@
+1. SCOTT으로 접속한 터미널창 1
+
+SELECT ename, sal, deptno
+  FROM emp
+  WHERE ename='JONES'
+  FOR UPDATE;
+
+2. SCOTT으로 접속한 터미널창 2
+
+UPDATE emp
+  SET sal = 9000
+  WHERE ename='JONES';
+
+3. SCOTT으로 접속한 터미널창 1
+
+COMMIT;
+
+4. 다음 실습을 위해서 SCOTT으로 접속한 터미널창2의 UPDATE를 ROLLBACK 합니다.
+

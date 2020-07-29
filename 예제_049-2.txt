@@ -1,0 +1,13 @@
+SELECT *
+  FROM order2
+  UNPIVOT (건수 for 아이템 in (BICYCLE as 'B', CAMERA as 'C', NOTEBOOK as 'N'));
+
+
+UPDATE ORDER2 SET NOTEBOOK=NULL WHERE ENAME='SMITH'; 
+
+SELECT * 
+  FROM order2;
+
+SELECT *
+  FROM order2
+  UNPIVOT (건수 for 아이템 in (BICYCLE as 'B', CAMERA as 'C', NOTEBOOK as 'N'));

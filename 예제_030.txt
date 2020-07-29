@@ -1,0 +1,3 @@
+SELECT ename, TO_CHAR(hiredate,'DAY') as 요일, TO_CHAR(sal,'999,999') as 월급
+  FROM emp
+  WHERE ename='SCOTT';

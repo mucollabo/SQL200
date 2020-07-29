@@ -1,0 +1,30 @@
+SELECT SYSTIMESTAMP FROM DUAL; 
+
+SELECT ename, sal, deptno
+  FROM emp
+  WHERE ename='KING';
+
+UPDATE emp
+  SET sal = 8000
+  WHERE ename='KING'; 
+
+COMMIT;
+
+UPDATE emp
+  SET deptno = 20
+  WHERE ename='KING'; 
+
+COMMIT;
+
+※ 다음 쿼리의 날짜와 시간은 앞에서 미리 확인한 날짜와 시간으로 작성하여 수행하여야 합니다.
+
+SELECT ename, sal, deptno, versions_starttime, versions_endtime, versions_operation
+  FROM emp
+  VERSIONS BETWEEN TIMESTAMP TO_TIMESTAMP('2019/06/30 09:03:40','RRRR-MM-DD HH24:MI:SS')
+                AND MAXVALUE
+  WHERE ename='KING'
+  ORDER BY versions_starttime;
+
+FLASHBACK TABLE emp TO TIMESTAMP (SYSTIMESTAMP - INTERVAL '10' MINUTE);
+
+commit;

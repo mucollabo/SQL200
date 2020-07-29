@@ -1,0 +1,6 @@
+DROP TABLE emp;
+
+SELECT original_name, droptime
+  FROM user_recyclebin;
+
+FLASHBACK TABLE emp TO BEFORE DROP; 

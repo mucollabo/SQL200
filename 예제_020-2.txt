@@ -1,0 +1,2 @@
+SELECT ename, REGEXP_REPLACE(sal, '[0-3]', '*') as SALARY
+  FROM emp; 

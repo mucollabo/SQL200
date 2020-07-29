@@ -1,0 +1,3 @@
+SELECT deptno, LISTAGG(ename,',') within group (order by ename) as EMPLOYEE
+  FROM emp
+  GROUP BY deptno;

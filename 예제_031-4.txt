@@ -1,0 +1,5 @@
+ALTER SESSION SET NLS_DATE_FORMAT='DD/MM/RR'; 
+
+SELECT ename, hiredate
+  FROM emp
+  WHERE hiredate ='17/11/81';

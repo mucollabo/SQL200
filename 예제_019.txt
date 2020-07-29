@@ -1,0 +1,2 @@
+SELECT INSTR('SMITH','M') 
+  FROM DUAL; 

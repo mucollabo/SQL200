@@ -1,0 +1,5 @@
+SELECT ename, sal
+  FROM emp
+  WHERE sal in (SELECT sal
+                       FROM emp
+                       WHERE job='SALESMAN');

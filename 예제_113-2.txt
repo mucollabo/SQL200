@@ -1,0 +1,2 @@
+SELECT LPAD('★', 10, '★') as STAR
+  FROM DUAL;

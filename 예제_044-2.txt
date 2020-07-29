@@ -1,0 +1,5 @@
+SELECT job, ename, sal, RANK() over ( partition by job
+                                      order by sal desc) as RANK ,
+                        CUME_DIST() over ( partition by job
+                                           order by sal desc) as CUM_DIST
+  FROM emp;

@@ -1,0 +1,4 @@
+SELECT ename, job, CASE WHEN job in ('SALESMAN','ANALYST') THEN 500                        
+                        WHEN job in ('CLERK','MANAGER') THEN 400                     
+                   ELSE 0 END as 보너스 
+  FROM emp; 

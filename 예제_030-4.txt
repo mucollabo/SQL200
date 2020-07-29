@@ -1,0 +1,4 @@
+SELECT ename as 이름, EXTRACT(year from hiredate) as 년도, 
+                              EXTRACT(MONTH from hiredate) as 달,
+                              EXTRACT(day from hiredate) as 요일
+  FROM emp; 

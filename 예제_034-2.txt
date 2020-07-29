@@ -1,0 +1,2 @@
+SELECT empno, mod(empno,2), DECODE(mod(empno,2),0,'Â¦¼ö',1,'È¦¼ö') as º¸³Ê½º
+  FROM emp; 

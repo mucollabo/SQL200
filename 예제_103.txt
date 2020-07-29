@@ -1,0 +1,42 @@
+-- 명령프롬프트를 실행하여 다음과 같이 sys 유져로 접속하고 작업을 수행합니다.
+
+C:\Users\oracl>sqlplus "/as sysdba"
+
+shutdown immediate; 
+
+startup mount
+
+alter database archivelog;
+
+alter database add supplemental log data;
+
+connect scott/tiger
+
+SELECT ename, sal, deptno
+ FROM emp
+ WHERE ename='KING';
+
+UPDATE emp
+ SET sal = 8000
+ WHERE ename='KING'; 
+
+COMMIT;
+
+UPDATE emp
+ SET deptno=20
+ WHERE ename='KING'; 
+
+COMMIT;
+
+SELECT versions_startscn, versions_endscn, versions_operation, sal,deptno
+      FROM  emp
+      VERSIONS BETWEEN SCN MINVALUE AND MAXVALUE
+      WHERE ename='KING';
+
+SELECT undo_sql
+ FROM flashback_transaction_query
+ WHERE table_owner = 'SCOTT' AND table_name = 'EMP'
+ AND commit_scn between 9454013 AND 9454017
+ORDER BY start_timestamp desc;
+
+

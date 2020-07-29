@@ -1,0 +1,2 @@
+SELECT '876.567', TRUNC(876.567,1)
+  FROM dual; 

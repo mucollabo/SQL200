@@ -1,0 +1,3 @@
+SELECT ename as 이름, sal as 월급 
+  FROM emp
+  WHERE 월급 >= 3000; 

@@ -1,0 +1,3 @@
+SELECT ename, sal as 월급 
+  FROM emp
+  ORDER BY 월급 asc;

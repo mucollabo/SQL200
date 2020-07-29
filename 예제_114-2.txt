@@ -1,0 +1,8 @@
+undefine 숫자1
+undefine 숫자2
+
+WITH  LOOP_TABLE  as ( SELECT LEVEL   as NUM
+                                   FROM DUAL
+                                   CONNECT BY LEVEL <= &숫자1)
+  SELECT LPAD(' ',  &숫자2-num, ' ')  ||  LPAD('★',  num, '★') as "Triangle"
+    FROM LOOP_TABLE ;

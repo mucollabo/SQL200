@@ -1,0 +1,2 @@
+SELECT INSTR('abcdefg@naver.com','@')
+  FROM DUAL; 

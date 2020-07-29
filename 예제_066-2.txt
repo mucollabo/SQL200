@@ -1,0 +1,7 @@
+SELECT e.ename as 이름, e.job as 직업, e.sal as 월급, d.loc as 부서위치
+  FROM emp e LEFT OUTER JOIN dept d
+  ON (e.deptno = d.deptno)
+UNION
+SELECT e.ename , e.job ,  e.sal  , d.loc
+  FROM emp e RIGHT OUTER JOIN dept d
+  ON (e.deptno = d.deptno);

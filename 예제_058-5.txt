@@ -1,0 +1,3 @@
+SELECT ename, loc, job, deptno
+  FROM emp, dept 
+  WHERE emp.deptno = dept.deptno  and emp.job='ANALYST';

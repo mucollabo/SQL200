@@ -1,0 +1,2 @@
+SELECT NEXT_DAY(ADD_MONTHS('2019/05/22',100), '화요일') as  "다음 날짜"
+  FROM DUAL; 

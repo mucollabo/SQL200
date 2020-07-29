@@ -1,0 +1,17 @@
+alter table dept
+add sumsal  number(10);
+
+MERGE INTO dept d
+USING (SELECT deptno, sum(sal) sumsal
+             FROM emp
+             GROUP BY deptno) v
+ON (d.deptno = v.deptno)
+WHEN MATCHED THEN
+UPDATE set d.sumsal = v.sumsal;
+
+SELECT *
+ FROM DEPT;
+ 
+alter table dept
+drop column sumsal;
+

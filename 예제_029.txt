@@ -1,0 +1,2 @@
+SELECT '2019/05/22' as 날짜, LAST_DAY('2019/05/22') as "마지막 날짜"
+  FROM DUAL; 

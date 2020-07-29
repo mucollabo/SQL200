@@ -1,0 +1,2 @@
+SELECT ename, sal, lpad('бс', round(sal/100) ,'бс') as bar_chart
+  FROM emp;

@@ -1,0 +1,3 @@
+SELECT UNIQUE job
+  FROM emp;
+

@@ -1,0 +1,15 @@
+CREATE VIEW EMP_VIEW
+AS
+SELECT empno, ename, sal, job, deptno
+  FROM emp
+  WHERE job='SALESMAN';
+
+SELECT * FROM emp_view;
+
+UPDATE EMP_VIEW SET sal=0 WHERE ename='MARTIN'; 
+
+SELECT * FROM emp where job='SALESMAN';
+
+ROLLBACK; 
+
+DROP  VIEW  emp_view; 

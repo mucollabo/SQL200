@@ -1,0 +1,2 @@
+SELECT DENSE_RANK('81/11/17') within group (ORDER BY hiredate ASC) ¼øÀ§
+  FROM emp;

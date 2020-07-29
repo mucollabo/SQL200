@@ -1,0 +1,19 @@
+CREATE TABLE emp2
+    as
+       SELECT *
+          FROM emp
+          WHERE 1=2;
+
+SELECT *
+  FROM emp2;
+
+INSERT INTO emp2(empno, ename, sal, deptno)
+ SELECT empno, ename, sal, deptno
+    FROM emp
+    WHERE deptno = 10; 
+
+SELECT *
+  FROM emp2;
+
+DROP  TABLE  emp2;
+

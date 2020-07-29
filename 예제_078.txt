@@ -1,0 +1,10 @@
+INSERT INTO emp (empno, ename, sal, hiredate, job)
+  VALUES(2812, 'JACK', 3500, TO_DATE('2019/06/05','RRRR/MM/DD'), 'ANALYST');
+
+SELECT * 
+  FROM  emp;
+
+ROLLBACK;
+
+SELECT * 
+  FROM  emp;

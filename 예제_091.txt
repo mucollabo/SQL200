@@ -1,0 +1,5 @@
+SELECT rpad(' ', level*3)  || ename  as  employee , level, sal, job
+  FROM emp
+  START WITH  ename='KING'
+  CONNECT BY prior empno = mgr 
+  ORDER SIBLINGS BY sal desc;

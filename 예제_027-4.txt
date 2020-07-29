@@ -1,0 +1,2 @@
+SELECT TO_DATE('2019-05-01','RRRR-MM-DD') + interval '100' month
+  FROM DUAL; 

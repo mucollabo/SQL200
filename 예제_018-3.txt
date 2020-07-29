@@ -1,0 +1,2 @@
+SELECT LENGTHB('가나다라마')
+  FROM DUAL; 

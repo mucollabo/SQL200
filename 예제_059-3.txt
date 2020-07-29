@@ -1,0 +1,3 @@
+SELECT e.ename, e.sal, s.grade
+  FROM emp e, salgrade s
+  WHERE e.sal between s.losal and s.hisal;

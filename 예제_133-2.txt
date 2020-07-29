@@ -1,0 +1,7 @@
+DROP TABLE CRIME_CAUSE2;
+
+CREATE  TABLE  CRIME_CAUSE2
+AS
+SELECT *
+ FROM CRIME_CAUSE
+ UNPIVOT ( CNT FOR TERM IN (생계형, 유흥, 도박, 허영심, 복수, 해고, 징벌, 가정불화, 호기심, 유혹, 사고, 불만, 부주의, 기타));

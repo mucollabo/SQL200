@@ -1,0 +1,4 @@
+SELECT e.ename as 이름, e.job as 직업, e.sal as 월급, d.loc as 부서위치
+  FROM emp e join dept d
+  USING (deptno)
+  WHERE e.job='SALESMAN';

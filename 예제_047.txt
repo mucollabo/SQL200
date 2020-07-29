@@ -1,0 +1,4 @@
+SELECT SUM(DECODE(deptno, 10, sal)) as "10",
+       SUM(DECODE(deptno, 20, sal)) as "20",
+       SUM(DECODE(deptno, 30, sal)) as "30"
+  FROM emp;

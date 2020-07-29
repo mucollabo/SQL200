@@ -1,0 +1,4 @@
+SELECT ename, sal, (select max(sal) from emp where job='SALESMAN') as 최대월급,
+                   (select min(sal) from emp where job='SALESMAN') as 최소월급
+  FROM emp
+  WHERE job='SALESMAN';

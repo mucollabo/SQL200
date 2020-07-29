@@ -1,0 +1,284 @@
+--■ 부록_예제_2_상위4%_진입 예제
+
+--1.여자와 아이를 구분하기 위한 파생 변수를 생성할 컬럼을 추가합니다.
+
+ALTER TABLE TITANIC
+  ADD WOMEN_CHILD NUMBER(5);
+
+--2. 추가한 파생변수에 여자와 10세미만의 아이들은 값을 1로 갱신하고 아니면 0으로 값을 갱신합니다. 
+
+UPDATE TITANIC T1
+SET WOMEN_CHILD = ( SELECT CASE WHEN AGE < 10 OR SEX='FEMALE'  
+                                         THEN 1 ELSE 0 END    
+                                 FROM TITANIC T2
+                                 WHERE T2.PASSENGERID = T1.PASSENGERID ); 
+                           
+COMMIT;
+
+--3. 테스트 테이블에도 똑같은 컬럼을 추가합니다. 
+
+ALTER TABLE TITANIC_TEST
+  ADD WOMEN_CHILD NUMBER(5);
+
+--4. 추가한 파생변수에 여자와 10세미만의 아이들은 값을 1로 아니면 0으로 값을 갱신합니다.
+
+UPDATE TITANIC_TEST T1
+SET WOMEN_CHILD = ( SELECT CASE  WHEN  AGE < 10  OR  SEX='FEMALE'  THEN  1  ELSE 0  END  
+                                  FROM   TITANIC_TEST   T2
+                                  WHERE  T2.PASSENGERID = T1.PASSENGERID  ); 
+                           
+COMMIT;
+
+--5. 1 과 0의 빈도수를 확인합니다. 
+
+SELECT WOMEN_CHILD, COUNT(*)
+ FROM TITANIC
+ GROUP BY WOMEN_CHILD;
+
+--6. 나이(AGE) 의 결측치를 확인합니다. 
+
+SELECT COUNT(*) FROM TITANIC WHERE AGE IS NULL;
+
+--7. 나이의 결측치를 이름의 호칭의 평균값으로 채우기 위해 이름에서 호칭만 출력합니다.
+
+SELECT name, SUBSTR(name, (instr(name, ',')+1), instr(name, '.')-instr(name, ',')-1) as 호칭 
+  FROM titanic;
+
+--8. titanic 테이블에 title (호칭) 컬럼을 추가합니다.
+
+ALTER TABLE TITANIC
+  ADD TITLE VARCHAR2(20);
+
+--9. titanic 테이블에 추가한 title(호칭) 컬럼을 호칭 값으로 갱신합니다.
+
+MERGE INTO TITANIC T
+USING ( SELECT PASSENGERID, NAME, 
+                  SUBSTR( NAME, INSTR( NAME, ',')+2, 
+                                 INSTR( NAME, '.')-INSTR( NAME, ',')-2 ) AS 호칭
+            FROM TITANIC ) A
+  ON ( T.PASSENGERID = A.PASSENGERID )
+  WHEN MATCHED THEN
+  UPDATE SET T.TITLE = A.호칭 ;
+
+COMMIT;
+
+
+--10. title(호칭) 컬럼의 값이 잘 변경되었는지 확인합니다. 
+
+SELECT name, title FROM titanic;
+
+--11. titanic 테이블에 title2 (호칭2) 컬럼을 추가합니다.
+
+ALTER TABLE TITANIC
+ ADD TITLE2 VARCHAR2(20);
+
+--12. 변경전 호칭을 변경후 호칭으로 대체한 쿼리문을 실행합니다.
+
+SELECT title,
+       CASE WHEN title in ('Mlle','Mme','Ms') then 'Miss'
+              WHEN title in ('Dr','Major','Rev','Sir','Don','Master','Capt') then 'Mr'
+              WHEN title in('Lady','the Countess') then 'Mrs'
+              WHEN title in ('Jonkheer','Col') then 'Other'
+              ELSE title END 호칭2
+ FROM titanic;
+
+--13. title2(호칭2) 컬럼을 변경 후 호칭으로 변경합니다.
+
+MERGE INTO titanic t
+USING titanic i
+On (t.passengerid = i.passengerid)
+WHEN MATCHED Then
+UPDATE SET title2 =  CASE WHEN title in ('Mlle','Mme','Ms') then 'Miss'
+                                   WHEN title in ('Dr','Major','Capt', 'Sir' , 'Don' , 'Master') 
+                                   THEN 'Mr'
+                                   WHEN title in ('the Countess', 'Lady') then 'Mrs'
+                                   WHEN title in ('Jonkheer', 'Col' , 'Rev') then 'Other'
+                                   ELSE title END;
+
+COMMIT;
+
+--14. title2 를 출력하고 title2 별 평균나이를 출력합니다.
+
+SELECT  title2, round(avg(age))
+  FROM  titanic
+  GROUP  BY  title2;
+
+--15. title2 별로 age의 null 값이 몇 개가 있는지 카운트하여 확인합니다
+
+SELECT title2 ,count(*)
+   FROM  titanic
+   WHERE age is null
+   GROUP BY title2;
+
+--16. 나이의 결측치를 해당 title2 의 평균 나이로 값을 갱신해서 채워 넣습니다. 
+
+MERGE INTO titanic t
+USING ( SELECT title2, round(avg(age)) 평균나이 
+            FROM titanic 
+            GROUP BY title2 ) tt
+ON ( t.title2 = tt.title2 )
+WHEN MATCHED THEN
+UPDATE SET t.age = tt.평균나이
+WHERE  t.age is null ;
+
+COMMIT;
+
+--17. titanic_test 테이블에 title (호칭) 컬럼을 추가합니다.
+
+ALTER TABLE TITANIC_TEST
+ ADD TITLE  VARCHAR2(20);
+
+--18. 추가한 title 컬럼에 호칭을 갱신합니다.
+
+MERGE INTO titanic_test t
+USING ( SELECT passengerid, name, 
+                  SUBSTR( name, instr( name, ',')+2, 
+                                     instr( name, '.')-instr( name, ',')-2 ) as 호칭
+            FROM titanic_test ) a
+  ON ( t.passengerid = a.passengerid )
+  WHEN MATCHED THEN
+  UPDATE SET t.title = a.호칭 ;
+
+COMMIT;
+
+--19. . titanic_test 테이블에 title2 컬럼을 추가합니다.
+
+ALTER TABLE TITANIC_TEST
+ ADD TITLE2  VARCHAR2(20);
+
+--20. title2(호칭2) 컬럼을 변경 후 호칭으로 변경합니다.
+
+MERGE INTO titanic_test t
+USING titanic_test i
+ON (t.passengerid = i.passengerid)
+WHEN MATCHED THEN
+UPDATE SET title2 =  CASE WHEN title in ('Mlle','Mme','Ms') then 'Miss'
+                                   WHEN title in ('Dr','Major','Capt', 'Sir' , 'Don' , 'Master') 
+                                   THEN 'Mr'
+                                   WHEN title in ('the Countess', 'Lady') then 'Mrs'
+                                   WHEN title in ('Jonkheer', 'Col' , 'Rev') then 'Other'
+                                   ELSE title END;
+
+COMMIT;
+
+--21. 나이의 결측치를 해당 title2 의 평균 나이로 값을 갱신하여 결측치를 채웁니다.
+
+MERGE INTO titanic_test t
+USING ( SELECT title2, round(avg(age)) 평균나이 
+            FROM titanic_test 
+            GROUP BY title2 ) tt
+ON ( t.title2 = tt.title2 )
+WHEN MATCHED THEN
+UPDATE SET t.age = tt.평균나이
+WHERE t.age is null ;
+
+COMMIT;
+
+--22. 운임의 이상치(Outlier)를 확인합니다. 
+
+SELECT PASSENGERID, FARE, 이상치기준
+  FROM( SELECT T.*,
+                     ROUND( AVG(FARE) OVER () + 5 * STDDEV(FARE) OVER ()) "이상치기준"
+              FROM TITANIC  T
+        )
+   WHERE FARE > 이상치기준;
+
+
+--23. 운임의 이상치를 제거하고 훈련 데이터를 구성하기 위해 VIEW를 생성합니다. 
+
+CREATE OR REPLACE VIEW TT_VIEW
+AS
+SELECT *
+    FROM( SELECT T.*,
+                      ROUND( AVG(FARE) OVER () + 5 * STDDEV(FARE) OVER ()) "이상치기준"
+                FROM TITANIC  T
+        )
+    WHERE FARE < 이상치기준;
+
+--24 머신러닝 모델을 구성하기 위한 환경 설정 테이블을 생성합니다. 
+
+DROP TABLE SETTINGS_GLM3;
+
+CREATE TABLE SETTINGS_GLM3
+AS
+SELECT *
+     FROM TABLE (DBMS_DATA_MINING.GET_DEFAULT_SETTINGS)
+     WHERE SETTING_NAME LIKE '%GLM%';
+
+BEGIN
+
+   INSERT INTO SETTINGS_GLM3
+        VALUES (DBMS_DATA_MINING.ALGO_NAME, 'ALGO_RANDOM_FOREST');
+
+   INSERT INTO SETTINGS_GLM3
+        VALUES (DBMS_DATA_MINING.PREP_AUTO, 'ON');
+
+  INSERT INTO SETTINGS_GLM3
+     VALUES (DBMS_DATA_MINING.CLAS_MAX_SUP_BINS, 254);
+
+   COMMIT;
+
+END;
+/
+
+--25. 기존의 머신러닝 모델을 삭제합니다. 
+
+BEGIN
+   DBMS_DATA_MINING.DROP_MODEL( 'MD_CLASSIFICATION_MODEL3');
+END;
+/
+
+--26. 머신러닝 모델을 생성합니다. 
+
+BEGIN 
+   DBMS_DATA_MINING.CREATE_MODEL(
+      MODEL_NAME         => 'MD_CLASSIFICATION_MODEL3',
+      MINING_FUNCTION       => DBMS_DATA_MINING.CLASSIFICATION,
+      DATA_TABLE_NAME       => 'TT_VIEW',
+      CASE_ID_COLUMN_NAME   => 'PASSENGERID',
+      TARGET_COLUMN_NAME    => 'SURVIVED',
+      SETTINGS_TABLE_NAME   => 'SETTINGS_GLM3');
+END;
+/
+
+--27. 머신러닝 모델을 확인합니다.
+
+SELECT MODEL_NAME,
+       ALGORITHM,
+       MINING_FUNCTION
+ FROM ALL_MINING_MODELS
+ WHERE MODEL_NAME = 'MD_CLASSIFICATION_MODEL3';
+
+--28. 테스트 데이터로 예측 값을 확인합니다. 
+
+SELECT PASSENGERID,
+          PREDICTION (MD_CLASSIFICATION_MODEL3 USING *) MODEL_PREDICT_RESPONSE
+FROM TITANIC_TEST 
+ORDER BY PASSENGERID;
+
+--29. 케글 Submit Predictions 텝을 클릭합니다. 
+
+--30. Step1에 gender_submission.csv 파일을 올립니다. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

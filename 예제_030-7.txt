@@ -1,0 +1,2 @@
+SELECT ename as 이름, TO_CHAR(sal*200, 'L999,999,999') as 월급
+  FROM emp;

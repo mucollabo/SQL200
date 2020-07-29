@@ -1,0 +1,5 @@
+SELECT empno, ename, sal, SUM(SAL) OVER (ORDER BY empno ROWS 
+                                                             BETWEEN UNBOUNDED PRECEDING
+                                                             AND CURRENT ROW) ´©ÀûÄ¡
+  FROM emp
+  WHERE job in ('ANALYST','MANAGER');

@@ -1,0 +1,5 @@
+SET AUTOT ON 
+
+SELECT ename, sal
+  FROM emp32
+  WHERE sal = 3000; 

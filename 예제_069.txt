@@ -1,0 +1,7 @@
+SELECT ename, sal, job, deptno
+  FROM emp
+  WHERE deptno in (10,20)
+INTERSECT
+SELECT ename, sal, job, deptno
+  FROM emp
+  WHERE deptno in (20,30);

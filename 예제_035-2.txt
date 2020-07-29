@@ -1,0 +1,4 @@
+SELECT ename, job, comm, CASE WHEN comm is null THEN 500             
+                              ELSE  0 END BONUS    
+  FROM emp    
+  WHERE job IN ('SALESMAN','ANALYST');

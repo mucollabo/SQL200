@@ -1,0 +1,5 @@
+.DS_Store
+*.log
+*.iml
+csv_data_collection/Chicago_Crimes_2012_to_2017.csv
+

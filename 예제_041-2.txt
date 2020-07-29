@@ -1,0 +1,3 @@
+SELECT ename, sal, job, RANK() over (PARTITION BY job
+                                     ORDER BY sal DESC) as ¼øÀ§
+  FROM emp;

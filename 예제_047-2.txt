@@ -1,0 +1,2 @@
+SELECT deptno, DECODE(deptno,10, sal) as "10"
+  FROM emp;

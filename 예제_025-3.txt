@@ -1,0 +1,3 @@
+SELECT empno, ename 
+  FROM emp
+  WHERE MOD(empno,2) = 0; 

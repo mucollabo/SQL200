@@ -1,0 +1,2 @@
+SELECT ename, LPAD(sal,10,'*') as salary1, RPAD(sal,10,'*') as salary2
+  FROM emp; 

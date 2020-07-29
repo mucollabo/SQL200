@@ -1,0 +1,3 @@
+SELECT ENAME, SAL
+  FROM emp
+  WHERE LOWER(ename)='scott';   

@@ -1,0 +1,3 @@
+SELECT ename, job, sal, RANK() over (ORDER BY sal DESC) ¼øÀ§
+  FROM emp 
+  WHERE job in ('ANALYST','MANAGER');

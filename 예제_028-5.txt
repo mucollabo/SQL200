@@ -1,0 +1,2 @@
+SELECT NEXT_DAY(ADD_MONTHS(sysdate,100), '월요일') as "다음 날짜"
+  FROM DUAL; 

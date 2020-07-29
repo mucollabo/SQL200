@@ -1,0 +1,8 @@
+INSERT INTO emp(empno, ename, sal, job, deptno)
+       VALUES(8282, 'JACK', 3000, 'ANALYST', 50) ;
+
+COMMIT;
+
+SELECT e.ename as 이름, e.job as 직업, e.sal as 월급, d.loc as 부서위치
+  FROM emp e LEFT OUTER JOIN dept d
+  ON (e.deptno = d.deptno);

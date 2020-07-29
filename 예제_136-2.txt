@@ -1,0 +1,4 @@
+SELECT 년도 "치킨집 폐업 년도", 치킨집 "건수"
+  FROM ( SELECT 년도, 치킨집, rank() over(order by 치킨집 desc) 순위 
+               FROM closing )
+  WHERE 순위=1;

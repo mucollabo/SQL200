@@ -1,0 +1,3 @@
+SELECT deptno, MAX(sal)
+  FROM emp
+  GROUP BY deptno;

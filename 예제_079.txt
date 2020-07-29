@@ -1,0 +1,13 @@
+UPDATE emp
+SET sal = 3200
+WHERE ename='SCOTT';
+
+SELECT * 
+  FROM emp
+  WHERE ename='SCOTT';
+
+ROLLBACK;
+
+SELECT * 
+  FROM emp
+  WHERE ename='SCOTT';

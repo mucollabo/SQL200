@@ -1,0 +1,6 @@
+SELECT 범죄유형
+  FROM CRIME_CAUSE2
+  WHERE CNT = ( SELECT MAX(CNT)
+                          FROM CRIME_CAUSE2
+                          WHERE TERM='가정불화' )
+   AND TERM='가정불화';

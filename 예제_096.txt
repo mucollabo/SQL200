@@ -1,0 +1,9 @@
+CREATE VIEW EMP_VIEW2
+AS
+SELECT deptno, round(avg(sal)) 평균월급
+  FROM emp
+  GROUP BY deptno ;
+
+SELECT * FROM emp_view2;
+
+DROP  VIEW  emp_view2;

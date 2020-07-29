@@ -1,0 +1,2 @@
+insert into emp(empno,ename,sal,job,deptno) values(8291, 'JACK  ', 3000, 'SALESMAN', 30);
+commit

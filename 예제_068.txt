@@ -1,0 +1,6 @@
+SELECT deptno, sum(sal)
+  FROM emp
+  GROUP BY deptno
+UNION 
+SELECT null as deptno, sum(sal)
+  FROM emp;

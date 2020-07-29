@@ -1,0 +1,4 @@
+SELECT job, MAX(sal)
+  FROM emp
+  WHERE job='SALESMAN'
+  GROUP BY job;

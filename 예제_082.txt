@@ -1,0 +1,25 @@
+ALTER TABLE emp
+   ADD loc varchar2(10);
+
+MERGE INTO emp e
+USING dept d
+ON (e.deptno = d.deptno)
+WHEN MATCHED THEN  
+UPDATE set e.loc = d.loc 
+WHEN NOT MATCHED THEN  
+INSERT (e.empno, e.deptno, e.loc) VALUES (1111,d.deptno, d.loc) ;
+
+SELECT *
+  FROM EMP;
+
+ALTER TABLE emp
+   DROP  COLUMN  loc;
+   
+DELETE FROM emp
+  WHERE empno = 1111;
+
+COMMIT;
+
+SELECT *
+  FROM EMP;
+

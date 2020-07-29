@@ -1,0 +1,6 @@
+SELECT JOB, SUM(SAL) as 토탈
+  FROM EMP
+  GROUP BY JOB
+  HAVING SUM(SAL)> ( SELECT AVG( SUM(SAL) )
+                       FROM EMP
+                       GROUP BY JOB );

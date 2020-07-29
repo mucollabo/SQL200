@@ -1,0 +1,3 @@
+SELECT *
+  FROM order2
+  UNPIVOT INCLUDE NULLS (건수 for 아이템 in (BICYCLE as 'B', CAMERA as 'C', NOTEBOOK as 'N'));

@@ -1,0 +1,126 @@
+-- ■ 부록 예제1. Kaggle 상위권에 도전하기1
+
+
+-- 1. 머신러닝 모델이 학습할 테이블을 생성합니다.
+
+DROP  TABLE TITANIC;
+
+CREATE TABLE TITANIC
+( PASSENGERID	NUMBER(5),
+SURVIVED	NUMBER(5),
+PCLASS	        NUMBER(5),
+NAME	        VARCHAR2(100),
+SEX	        VARCHAR2(20),
+AGE	        NUMBER(5,2),
+SIBSP	        NUMBER(5), 
+PARCH	        NUMBER(5),
+TICKET	        VARCHAR2(20),
+FARE	        NUMBER(18,5),
+CABIN	        VARCHAR2(50),
+EMBARKED      VARCHAR2(5) );
+
+-- 데이터 입력: SQL Developer를 이용해서 train.csv 를 titanic 테이블에 입력합니다. 
+
+SELECT COUNT(*) FROM TITANIC;
+--891
+
+
+
+-- 2. 머신러닝 모델을 구성하기 위한 환경 설정 테이블을 생성합니다. 
+
+DROP TABLE SETTINGS_GLM;
+
+CREATE TABLE SETTINGS_GLM
+AS
+SELECT *
+     FROM TABLE (DBMS_DATA_MINING.GET_DEFAULT_SETTINGS)
+    WHERE SETTING_NAME LIKE '%GLM%';
+
+BEGIN
+
+   INSERT INTO SETTINGS_GLM
+        VALUES (DBMS_DATA_MINING.ALGO_NAME, 'ALGO_RANDOM_FOREST');
+
+   INSERT INTO SETTINGS_GLM
+        VALUES (DBMS_DATA_MINING.PREP_AUTO, 'ON');
+
+   INSERT INTO SETTINGS_GLM
+        VALUES (
+                  DBMS_DATA_MINING.GLMS_REFERENCE_CLASS_NAME,
+                  'GLMS_RIDGE_REG_DISABLE');
+
+   INSERT INTO SETTINGS_GLM
+        VALUES (
+                  DBMS_DATA_MINING.ODMS_MISSING_VALUE_TREATMENT,
+                  'ODMS_MISSING_VALUE_MEAN_MODE');
+
+   COMMIT;
+END;
+/
+
+
+-- 3. 머신러닝 모델을 삭제합니다.
+
+BEGIN
+   DBMS_DATA_MINING.DROP_MODEL( 'MD_CLASSIFICATION_MODEL');
+END;
+/
+
+
+-- 4. 머신러닝 모델을 생성합니다. 
+
+BEGIN 
+   DBMS_DATA_MINING.CREATE_MODEL(
+      model_name         => 'MD_CLASSIFICATION_MODEL',
+      mining_function       =>  DBMS_DATA_MINING.CLASSIFICATION,
+      data_table_name       => 'TITANIC',
+      case_id_column_name   => 'PASSENGERID',
+      target_column_name    =>  'SURVIVED',
+      settings_table_name   => 'SETTINGS_GLM');
+END;
+/
+
+-- 5. 머신러닝 모델을 확인합니다.
+
+SELECT MODEL_NAME,
+       ALGORITHM,
+       MINING_FUNCTION
+  FROM ALL_MINING_MODELS
+ WHERE MODEL_NAME = 'MD_CLASSIFICATION_MODEL';
+
+
+-- 6. 머신러닝 모델 설정 정보를 확인합니다. 
+
+SELECT SETTING_NAME, SETTING_VALUE
+FROM ALL_MINING_MODEL_SETTINGS
+WHERE MODEL_NAME = 'MD_CLASSIFICATION_MODEL';
+
+-- 7. 테스트 데이터를 저장할 테이블을 생성합니다. 
+
+DROP TABLE TITANIC_TEST;
+
+CREATE TABLE TITANIC_TEST
+( PASSENGERID	NUMBER(5),
+PCLASS	        NUMBER(5),
+NAME	        VARCHAR2(100),
+SEX	        VARCHAR2(20),
+AGE	        NUMBER(5,2),
+SIBSP	        NUMBER(5), 
+PARCH	        NUMBER(5),
+TICKET	        VARCHAR2(20),
+FARE	        NUMBER(18,5),
+CABIN	        VARCHAR2(50),
+EMBARKED      VARCHAR2(5) );
+
+
+-- 데이터 입력: SQL Developer를 이용해서 test.csv 를 titanic 테이블에 입력합니다.
+
+SELECT COUNT(*) FROM TITANIC_TEST;
+--418
+
+-- 8. 모델이 예측한 결과를 확인합니다. 
+
+SELECT passengerid ,
+ PREDICTION (MD_CLASSIFICATION_MODEL USING *) MODEL_PREDICT_RESPONSE
+FROM titanic_test 
+order by passengerid;

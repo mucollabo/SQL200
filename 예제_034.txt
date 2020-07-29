@@ -1,0 +1,2 @@
+SELECT ename, deptno, DECODE(deptno,10,300,20,400,0) as º¸³Ê½º
+  FROM emp; 

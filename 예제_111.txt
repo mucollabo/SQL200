@@ -1,0 +1,5 @@
+WITH LOOP_TABLE  as ( SELECT LEVEL  as NUM
+                        FROM DUAL
+                        CONNECT BY LEVEL <= 9 )
+  SELECT  '2' || ' x ' ||  NUM || ' = ' || 2 * NUM  AS "2단"
+    FROM LOOP_TABLE;

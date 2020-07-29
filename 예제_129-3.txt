@@ -1,0 +1,8 @@
+
+SELECT *
+  FROM ( 
+         SELECT DAY_CNT, CNT, RANK() OVER (ORDER BY CNT DESC) RNK
+           FROM CRIME_DAY_UNPIVOT
+           WHERE TRIM(CRIME_TYPE)='절도'
+       )
+WHERE  RNK = 1;

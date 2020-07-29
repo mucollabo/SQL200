@@ -1,0 +1,3 @@
+SELECT ename, loc
+  FROM emp, dept 
+  WHERE emp.deptno = dept.deptno ;

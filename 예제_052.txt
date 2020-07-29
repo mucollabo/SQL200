@@ -1,0 +1,3 @@
+SELECT job, sum(sal)
+  FROM emp
+  GROUP BY ROLLUP(job);

@@ -1,0 +1,4 @@
+SELECT deptno, ename, sal, ROW_NUMBER() OVER( PARTITION BY deptno
+                                                                   ORDER BY sal DESC) ¹øÈ£
+  FROM emp
+  WHERE deptno in (10,20);

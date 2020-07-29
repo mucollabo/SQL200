@@ -1,0 +1,5 @@
+SELECT ename, sal, job
+  FROM emp
+  WHERE empno not in (SELECT mgr
+                                  FROM emp
+                                  WHERE mgr is not null);

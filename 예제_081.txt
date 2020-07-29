@@ -1,0 +1,26 @@
+INSERT INTO emp(empno, ename, sal, deptno)
+ VALUES(1122,'JACK',3000, 20) ;
+
+COMMIT;
+
+UPDATE emp
+  SET sal = 4000
+  WHERE ename='SCOTT';
+
+SELECT *
+  FROM emp
+  WHERE ename='SCOTT';
+
+ROLLBACK;
+
+SELECT *
+  FROM emp
+  WHERE ename='SCOTT';
+ 
+DELETE FROM EMP
+  WHERE ENAME='JACK';
+ 
+ COMMIT;
+
+SELECT *
+  FROM EMP;

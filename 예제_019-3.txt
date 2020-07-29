@@ -1,0 +1,2 @@
+SELECT SUBSTR('abcdefgh@naver.com' ,INSTR('abcdefgh@naver.com','@')+1 ) 
+  FROM DUAL;

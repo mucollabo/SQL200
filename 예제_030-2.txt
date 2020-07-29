@@ -1,0 +1,4 @@
+SELECT hiredate, TO_CHAR(hiredate,'RRRR') as 년도, TO_CHAR(hiredate,'MM') as 달, 
+                       TO_CHAR(hiredate,'DD') as 일, TO_CHAR(hiredate,'DAY') as 요일
+  FROM emp
+  WHERE ename='KING'; 

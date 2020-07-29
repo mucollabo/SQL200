@@ -1,0 +1,5 @@
+SELECT empno, ename, sal,  
+         LAG(sal,1) over (order by sal asc) "전 행",
+         LEAD(sal,1) over (order by sal asc) "다음 행"
+  FROM emp
+  WHERE job in ('ANALYST','MANAGER');

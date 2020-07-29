@@ -1,0 +1,3 @@
+SELECT empno, ename, sal, ROW_NUMBER() OVER () ¹øÈ£
+  FROM emp
+  WHERE deptno = 20;

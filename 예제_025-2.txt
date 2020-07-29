@@ -1,0 +1,2 @@
+SELECT empno, MOD(empno,2)
+  FROM emp; 

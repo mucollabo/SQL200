@@ -1,0 +1,3 @@
+SELECT empno, ename, sal, RATIO_TO_REPORT(sal) OVER () as ∫Ò¿≤
+  FROM emp
+  WHERE deptno = 20; 

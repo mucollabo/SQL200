@@ -1,0 +1,3 @@
+SELECT *
+  FROM (select deptno, sal from emp)
+  PIVOT (sum(sal) for deptno in (10,20,30));

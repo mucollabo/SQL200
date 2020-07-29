@@ -1,0 +1,4 @@
+SELECT empno, ename, sal, RATIO_TO_REPORT(sal) OVER () as 비율,
+                                  SAL/SUM(sal) OVER () as "비교 비율"
+  FROM emp
+  WHERE deptno = 20; 

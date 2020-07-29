@@ -1,0 +1,3 @@
+SELECT ROWNUM, empno, ename, job, sal
+  FROM emp
+  WHERE ROWNUM <= 5; 

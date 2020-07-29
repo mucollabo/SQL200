@@ -1,0 +1,6 @@
+SELECT *
+  FROM ( SELECT c_loc, cnt, rank() over (order by cnt desc)  rnk
+              FROM crime_loc
+              WHERE crime_type='살인'
+        )
+  WHERE  rnk = 1;

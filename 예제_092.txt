@@ -1,0 +1,4 @@
+SELECT ename, SYS_CONNECT_BY_PATH(ename,'/')  as  path 
+  FROM emp
+  START WITH ename='KING'
+  CONNECT BY prior empno = mgr;

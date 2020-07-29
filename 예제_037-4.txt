@@ -1,0 +1,3 @@
+SELECT NVL(MIN(sal),0)
+  FROM emp
+  WHERE 1 = 2; 

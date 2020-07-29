@@ -1,0 +1,4 @@
+SELECT ename, sal, RANK() over (order by sal desc) as RANK ,
+                   DENSE_RANK() over (order by sal desc) as DENSE_RANK,
+                   CUME_DIST()  over (order by sal desc) as CUM_DIST
+  FROM emp;

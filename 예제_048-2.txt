@@ -1,0 +1,3 @@
+SELECT *
+  FROM (select job, sal from emp)
+  PIVOT (sum(sal) for job in ('ANALYST', 'CLERK','MANAGER', 'SALESMAN'));

@@ -1,0 +1,4 @@
+SELECT count(word) as 부정단어
+  FROM speech_view
+  WHERE lower(word) IN ( SELECT lower(n_text)
+                           FROM negative);

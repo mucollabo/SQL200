@@ -1,0 +1,13 @@
+UPDATE emp
+  SET sal = ( SELECT sal
+                FROM emp
+                WHERE ename='ALLEN' )
+  WHERE job='SALESMAN';
+
+SELECT *
+  FROM emp;
+
+ROLLBACK;
+
+SELECT *
+  FROM emp;

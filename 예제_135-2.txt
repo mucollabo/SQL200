@@ -1,0 +1,8 @@
+SELECT * 
+  FROM ( 
+      SELECT ACC_LOC_NAME AS 사고장소, ACC_CNT AS 사고건수, 
+                DENSE_RANK() OVER (ORDER BY ACC_CNT DESC NULLS LAST) AS 순위
+        FROM ACC_LOC_DATA
+        WHERE ACC_YEAR=2017
+        )
+  WHERE 순위 <= 5;

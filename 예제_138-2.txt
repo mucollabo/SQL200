@@ -1,0 +1,11 @@
+SELECT DISTINCT(암종), 성별 , 환자수
+  FROM CANCER
+  WHERE 환자수 = (SELECT MAX(환자수)
+                             FROM CANCER
+                             WHERE 성별 = '남자' AND 암종 != '모든암')
+UNION ALL
+SELECT DISTINCT(암종) , 성별 , 환자수
+  FROM CANCER
+  WHERE 환자수 = (SELECT MAX(환자수)
+                            FROM CANCER
+                            WHERE 성별 = '여자');

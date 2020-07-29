@@ -1,0 +1,3 @@
+SELECT job, LISTAGG(ename,',') within group (ORDER BY ename asc) as employee
+  FROM emp
+  GROUP BY job;

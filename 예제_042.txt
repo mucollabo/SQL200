@@ -1,0 +1,4 @@
+SELECT ename, job, sal, RANK() over (ORDER BY sal DESC) AS RANK,
+                        DENSE_RANK() over (ORDER BY sal DESC) AS DENSE_RANK
+  FROM emp 
+  WHERE job in ('ANALYST','MANAGER');

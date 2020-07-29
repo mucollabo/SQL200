@@ -1,0 +1,3 @@
+SELECT deptno, job, sum(sal)
+  FROM emp
+  GROUP BY ROLLUP(deptno, job);

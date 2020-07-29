@@ -1,0 +1,2 @@
+SELECT ename, LENGTH(ename)
+  FROM emp; 

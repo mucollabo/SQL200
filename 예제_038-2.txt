@@ -1,0 +1,2 @@
+SELECT ROUND(AVG(NVL(comm,0)))
+  FROM emp;

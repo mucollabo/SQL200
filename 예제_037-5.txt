@@ -1,0 +1,5 @@
+SELECT job, MIN(sal)
+  FROM emp
+  WHERE job != 'SALESMAN' 
+  GROUP BY job
+  ORDER BY MIN(sal) DESC;

@@ -1,0 +1,3 @@
+SELECT ename, sal, comm, sal + comm
+  FROM emp
+  WHERE deptno = 10;
