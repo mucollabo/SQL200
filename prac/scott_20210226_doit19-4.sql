@@ -158,4 +158,201 @@ BEGIN
 END;
 /
 
+-- chap 19-5 triger
+
+-- exercise 19-31
+
+create table emp_trg
+    as select * from emp;
+    
+-- exercise 19-32
+
+create or replace trigger trg_emp_nodml_weekend
+before
+insert or update or delete on emp_trg
+begin
+    if to_char(sysdate, 'DY') in ('토', '일') then
+        if inserting then
+            raise_application_error(-20000, '주말 사원정보 추가 불가');
+        elsif updating then
+            raise_application_error(-20001, '주말 사원정보 수정 불가');
+        elsif updating then
+            raise_application_error(-20002, '주말 사원정보 삭제 불가');
+        else
+            raise_application_error(-20003, '주말 사원정보 변경 불가');
+        end if;
+    end if;
+end;
+/
+
+-- exercise 19-33
+
+update emp_trg set sal = 3500 where empno = 7788;
+
+-- exercise 19-34
+
+update emp_trg set sal = 3500 where empno = 7788;
+
+-- exercise 19-35
+
+create table emp_trg_log(
+    tablename   varchar2(10),
+    dml_type    varchar2(10),
+    empno       number(4),
+    user_name   varchar2(30),
+    chage_date  date
+    );
+    
+-- exercise 19-36
+
+create or replace trigger trg_emp_log
+after
+insert or update or delete on emp_trg
+for each row
+
+begin
+
+    if inserting then
+        insert into emp_trg_log
+        values ('EMP_TRG', 'INSERT', :new.empno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+                 
+    elsif updating then
+        insert into emp_trg_log
+        values ('EMP_TRG', 'UPDATE', :old.empno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+    elsif deleting then
+        insert into emp_trg_log
+        values ('EMP_TRG', 'DELETE', :old.empno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+    end if;
+end;
+/
+
+-- exercise 19-37
+
+insert into emp_trg
+values(9999, 'TestEmp', 'CLERK', 7788, to_date('2018-03-03', 'YYYY-MM-DD'), 1200, null, 20);
+
+-- exercise 19-38
+
+commit;
+
+-- exercise 19-39
+
+select * from emp_trg;
+
+-- exercise 19-40
+
+select * from emp_trg_log;
+
+-- exercise 19-41
+
+update emp_trg
+    set sal = 1300
+  where mgr = 7788;
+  
+commit;
+
+-- exe 19-42
+
+select trigger_name, trigger_type, triggering_event, table_name, status
+    from user_triggers;
+    
+-- prac Q1
+
+-- 1
+
+CREATE OR REPLACE PROCEDURE pro_dept_in
+(
+   inout_deptno IN OUT DEPT.DEPTNO%TYPE,
+   out_dname OUT DEPT.DNAME%TYPE,
+   out_loc OUT DEPT.LOC%TYPE
+)
+IS
+BEGIN
+   SELECT DEPTNO, DNAME, LOC INTO inout_deptno, out_dname, out_loc
+     FROM DEPT
+    WHERE DEPTNO = inout_deptno;
+END pro_dept_in;
+/
+
+-- 2
+
+declare
+    v_deptno dept.deptno%type;
+    v_dname  dept.dname%type;
+    v_loc    dept.loc%type;
+begin
+    v_deptno := 10;
+    pro_dept_in (v_deptno, v_dname, v_loc);
+    dbms_output.put_line('부서 번호 : ' || v_deptno);
+    dbms_output.put_line('부서 이름 : ' || v_dname);
+    dbms_output.put_line('지역 : ' || v_loc);
+end;
+/
+
+-- prac 2
+
+create or replace function func_date_kor(
+    in_date in date
+    )
+return varchar2
+is
+begin
+    return (to_char(in_date, 'YYYY"년 "MM"월 "DD"일 "'));
+end func_date_kor;
+/
+
+select ename, func_date_kor(hiredate) as hiredate
+    from emp
+  where empno = 7369;
+    
+-- prac 3
+
+-- 1
+
+create table dept_trg
+    as select * from dept
+      where 1 <> 1;
+
+select * from dept_trg;
+
+-- 2
+
+create table dept_trg_log (
+    tablename   varchar2(10),
+    dml_type    varchar2(10),
+    deptno      number(2),
+    user_name   varchar2(30),
+    change_date date
+    );
+
+-- 3
+
+create or replace trigger trg_dept_log
+after
+insert or update or delete on dept_trg
+for each row
+
+begin
+
+    if inserting then
+        insert into dept_trg_log
+        values ('DEPT_TRG', 'INSERT', :new.deptno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+                 
+    elsif updating then
+        insert into dept_trg_log
+        values ('DEPT_TRG', 'UPDATE', :old.deptno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+    elsif deleting then
+        insert into dept_trg_log
+        values ('DEPT_TRG', 'DELETE', :old.deptno,
+                 SYS_CONTEXT('USERENV', 'SESSION_USER'), sysdate);
+    end if;
+end;
+/
+
+commit;
 
