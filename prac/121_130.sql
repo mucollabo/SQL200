@@ -61,3 +61,117 @@ select result
     where num = 800000;
 
 commit;
+
+--126
+
+create table cancer
+(암종     varchar2(50),
+ 질병코드   varchar2(20),
+ 환자수    number(10),
+ 성별     varchar2(20),
+ 조유병률   number(10, 2),
+ 생존율    number(10, 2));
+ 
+select * from cancer;
+
+commit;
+
+--127
+
+create table speech
+(speech_text        varchar2(1000));
+
+select count(*) from speech;
+
+select REGEXP_SUBSTR('I never graduated from college', '[^ ]+', 1, 2) word 
+     FROM DUAL;
+     
+select regexp_substr(lower(speech_text), '[^ ]+', 1, a) word
+    from speech, (select level a
+                    from dual
+                    connect by level <= 52);
+                    
+select word, count(*)
+    from (select regexp_substr(lower(speech_text), '[^ ]+', 1, a) word
+            from speech, (select level a
+                            from dual
+                            connect by level <= 52)
+            )
+    where word is not null
+    group by word
+    order by count(*) desc;
+    
+--128
+
+create table positive (p_text       varchar2(2000));
+create table negative (n_text       varchar2(2000));
+
+drop view vw_emp30all;
+
+create view speech_view
+as
+select regexp_substr(lower(speech_text), '[^ ]+', 1, a) word
+    from speech, (select level a
+                    from dual
+                    connect by level <= 52);
+                    
+select count(word) as 긍정단어
+    from speech_view
+    where lower(word) in (select lower(p_text) from positive);
+
+select count(word) as 부정단어
+    from speech_view
+    where lower(word) in (select lower(n_text) from negative);
+    
+--129
+
+create table crime_day
+(crime_type         varchar2(50),
+ sun_cnt            number(10),
+ mon_cnt            number(10),
+ tue_cnt            number(10),
+ wed_cnt            number(10),
+ thu_cnt            number(10),
+ fri_cnt            number(10),
+ sat_cnt            number(10),
+ unknown_cnt        number(10));
+ 
+create table crime_day_unpivot
+as
+select *
+    from crime_day
+    unpivot (cnt for day_cnt in (sun_cnt, mon_cnt, tue_cnt, wed_cnt, thu_cnt, fri_cnt, sat_cnt));
+    
+select * from crime_day_unpivot;
+
+select * from crime_day;
+
+select *
+    from ( select day_cnt, cnt, rank() over (order by cnt desc) rnk
+                from crime_day_unpivot
+                where trim(crime_type) = '절도'
+                )
+    where rnk = 1;
+    
+--130
+
+create table university_fee
+(division           varchar2(20),
+ type               varchar2(20),
+ university         varchar2(60),
+ loc                varchar2(40),
+ admission_cnt      number(20),
+ admission_fee      number(20),
+ tution_fee         number(20));
+ 
+alter table university_fee rename COLUMN tution_fee to tuition_fee;
+
+desc university_fee;
+ 
+select *
+    from (select university, tuition_fee, rank() over (order by tuition_fee desc nulls last) 순위
+                from university_fee)
+    where 순위 = 1;
+    
+commit;
+
